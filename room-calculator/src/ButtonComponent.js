@@ -1,6 +1,7 @@
 import React from "react";
 
 const ButtonComponent = (props) => {
+  /* disabled={props.value <= 1 && props.label === "Rooms" ? true : false} */
   return (
     <div className="btnscmp">
       <div>
@@ -11,6 +12,7 @@ const ButtonComponent = (props) => {
           className="bttns minus"
           id={props.label}
           onClick={props.decrement}
+          disabled={props.disableminus}
         >
           -
         </button>
@@ -21,6 +23,7 @@ const ButtonComponent = (props) => {
           id={props.label}
           className="bttns plus"
           onClick={props.increment}
+          disabled={props.disableplus}
         >
           +
         </button>
