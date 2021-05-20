@@ -1,5 +1,9 @@
 import { useState } from "react";
 import ButtonComponent from "./ButtonComponent";
+import people from "./people.JPG";
+import room from "./Rooms.JPG";
+import adult from "./adults.JPG";
+import children from "./children.JPG";
 function App() {
   const [rooms, setRooms] = useState(1);
   const [adults, setAdults] = useState(1);
@@ -11,99 +15,42 @@ function App() {
   const [aplus, setAplus] = useState(false);
   const [cplus, setCplus] = useState(false);
 
-  let rooms_l = rooms,
-    adults_l = adults,
-    child_l = child;
-
-  function valid(rooms_l, adults_l, child_l) {
-    rooms_l > 1 ? setRminus(false) : setRminus(true);
-    let total = adults_l + child_l;
-    let allowed = rooms_l > 5 ? 20 : rooms_l > 1 ? rooms_l * 4 : 4;
-
-    /*     if (rooms_l <= 5 && rooms_l >= 1) {
-      if (total <= rooms * 4) {
-        setRooms(rooms_l);
-        setAdults(adults_l);
-        setChild(child_l);
-      }
-    } */
-
-    if (rooms_l <= 5 && rooms_l >= 1) {
-      if (rooms_l > rooms) {
-        if (rooms_l <= adults_l) {
-          if (total <= allowed) {
-            setRooms(rooms_l);
-            setAdults(adults_l);
-            setChild(child_l);
-          }
-        } else if (rooms_l > adults_l) {
-          setRooms(rooms_l);
-          setAdults(adults_l + 1);
-        }
-      }
-    }
-
-    console.log(
-      "Total Rooms = ",
-      rooms_l,
-      "Child = ",
-      child_l,
-      "Adults = ",
-      adults_l,
-      "Allowed = ",
-      allowed
-    );
-    /*  while (total !== allowed) {} */
-  }
-
-  /*     if (rooms < 5 && rooms >= 1) {
-      if (rooms_l > rooms) {
-        // if rooms are increased
-        if (rooms_l * 4 <= adults_l) {
-          //Increase only rooms till each room has 1 adult
-          setRooms(rooms_l);
-        } else if (rooms_l * 4 > adults_l) {
-          //increase rooms and adult count if each room does not have 1 adult
-          setRooms(rooms_l);
-          setAdults(adults_l + 1);
-        }
-      }
-
-      if (rooms_l < rooms) {
-        console.log(rooms_l, rooms);
-        if (rooms_l <= adults_l) {
-          setRooms(rooms_l);
-          if (adults_l > rooms_l * 4) setAdults(rooms_l * 4);
-        }
-      } 
-    }
-    
-    setAdults(adults_l);
-    setChild(child_l); 
-  }
-  */
   const increment = (event) => {
-    console.log("Event Fired");
-
     switch (event.target.id) {
       case "Rooms":
-        rooms_l = rooms + 1;
         if (rooms + 1 <= 5) {
           setRooms((prevState) => prevState + 1);
-          if (adults < rooms_l) setAdults((prevState) => prevState + 1);
+          if (adults + child < (rooms + 1) * 4) {
+            if (adults === rooms) {
+              setAdults((prevState) => prevState + 1);
+              setAminus(true);
+            }
+            setAminus(false);
+            setCminus(false);
+          }
           setRminus(false);
 
-          if (rooms_l * 4 >= adults) {
+          if ((rooms + 1) * 4 >= adults) {
             setAplus(false);
             setCplus(false);
           }
+          if (adults === rooms) {
+            setAminus(true);
+          }
+          if (child === 0) {
+            setCminus(true);
+          }
 
-          if (rooms_l === 5) setRplus(true);
-          else if (rooms_l < 5) setRplus(false);
+          if (rooms + 1 === 5) setRplus(true);
+          else if (rooms + 1 < 5) setRplus(false);
         }
 
         break;
       case "Adults":
+        if (adults + 1 > 0) {
+          setAminus(false);
+        }
+
         if (adults + 1 + child === rooms * 4) {
           setAplus(true);
           setCplus(true);
@@ -141,20 +88,34 @@ function App() {
   const decrement = (event) => {
     switch (event.target.id) {
       case "Rooms":
-        /* rooms_l = rooms - (rooms > 1 ? 1 : 0); */
         if (rooms - 1 > 0) {
           if (adults + child <= (rooms - 1) * 4)
             setRooms((prevState) => prevState - 1);
           if (adults + child > (rooms - 2) * 4) {
-            console.log("here");
             setRminus(true);
           }
         }
+        if (adults + child <= (rooms - 1) * 4) {
+          if (adults > rooms - 1) setAminus(false);
+          if (child > 0) setCminus(false);
+        }
         break;
       case "Adults":
+        if (adults - 1 > 0) {
+          if (adults - 1 === rooms) {
+            setAminus(true);
+          }
+          setAdults((prevState) => prevState - 1);
+          if (child - 1 + adults === (rooms - 1) * 4) {
+            setRminus(false);
+          }
+        }
         if (child - 1 + adults < rooms * 4) {
           setCplus(false);
           setAplus(false);
+        }
+        if (child === 0) {
+          setCminus(true);
         }
         break;
       case "Child":
@@ -176,39 +137,50 @@ function App() {
           setCplus(false);
           setAplus(false);
         }
+        if (adults === rooms) {
+          setAminus(true);
+        }
         break;
       default:
         break;
     }
-    /*  valid(rooms_l, adults_l, child_l); */
   };
 
   return (
     <>
-      <ButtonComponent
-        label="Rooms"
-        value={rooms}
-        increment={increment}
-        decrement={decrement}
-        disableminus={rminus}
-        disableplus={rplus}
-      />
-      <ButtonComponent
-        label="Adults"
-        value={adults}
-        increment={increment}
-        decrement={decrement}
-        disableminus={aminus}
-        disableplus={aplus}
-      />
-      <ButtonComponent
-        label="Child"
-        value={child}
-        increment={increment}
-        decrement={decrement}
-        disableminus={cminus}
-        disableplus={cplus}
-      />
+      <p className="header">
+        <img src={people} alt="ico" />
+        Choose number of <b>people</b>
+      </p>
+      <div className="box">
+        <ButtonComponent
+          pic={room}
+          label="Rooms"
+          value={rooms}
+          increment={increment}
+          decrement={decrement}
+          disableminus={rminus}
+          disableplus={rplus}
+        />
+        <ButtonComponent
+          pic={adult}
+          label="Adults"
+          value={adults}
+          increment={increment}
+          decrement={decrement}
+          disableminus={aminus}
+          disableplus={aplus}
+        />
+        <ButtonComponent
+          pic={children}
+          label="Child"
+          value={child}
+          increment={increment}
+          decrement={decrement}
+          disableminus={cminus}
+          disableplus={cplus}
+        />
+      </div>
     </>
   );
 }

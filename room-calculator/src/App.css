@@ -1,28 +1,53 @@
 #root {
-  display: flex;
+  display: inline-block;
   flex-direction: column;
-  width: 500px;
+  width: fit-content;
   border-width: 10px;
   border-color: black;
 }
+.header {
+  color: blue;
+  font-size: 23px;
+}
 
+.counters {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 90px;
+}
+.box {
+  display: inline-block;
+  flex-direction: column;
+  width: 250px;
+  border-width: 10px;
+  padding: 10px;
+  border-color: black;
+}
 .btnscmp {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-between;
   padding: 10px;
 }
 
 .bttns {
-  min-height: 40px;
-  min-width: 40px;
-}
-/* 
-.plus {
-  background-color: chartreuse;
+  min-height: 10px;
+  min-width: 10px;
+
+  vertical-align: top;
+  font: 30px/1 Arial, sans-serif;
+  text-align: center;
+  border-radius: 50%;
+  background-clip: padding-box;
 }
 
-.minus {
-  background-color: crimson;
+/* .minus {
+  color: wheat;
+  background-color: rgb(8, 8, 104);
 }
- */
+
+.plus {
+  color: black;
+  background-color: rgb(230, 46, 46);
+} */
