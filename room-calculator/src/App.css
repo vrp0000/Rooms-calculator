@@ -1,0 +1,27 @@
+#root {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  border-width: 10px;
+  border-color: black;
+}
+
+.btnscmp {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  padding: 10px;
+}
+
+.bttns {
+  min-height: 40px;
+  min-width: 40px;
+}
+
+.plus {
+  background-color: chartreuse;
+}
+
+.minus {
+  background-color: crimson;
+}
